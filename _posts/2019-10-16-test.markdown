@@ -1,7 +1,9 @@
 ---
 layout: post
-title:  "Test!"
+title:  "Test(中文)!"
 date:   2019-10-16 18:51:01 +0800
 categories: test
 ---
 Test...
+
+中文！！
