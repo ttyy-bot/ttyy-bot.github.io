@@ -23,7 +23,7 @@ categories: research
 
 流模型更基础的介绍：
 http://www.gwylab.com/note-flow_based_model.html
-http://nooverfit.com/wp/gan和vae都out了？理解基于流的生成模型（flow-based）-glow，realnvp和nice/"
+http://nooverfit.com/wp/gan和vae都out了？理解基于流的生成模型（flow-based）-glow，realnvp和nice/
 
 4)另外，可逆单元的提出者自己也做了一些可逆生成模型的尝试“Invertible Residual Networks”，其就是于深度残差网络中应用可逆单元，这种模式也可用于生成模型。可以参考其比对对象。
 
