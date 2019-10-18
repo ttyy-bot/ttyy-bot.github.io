@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "’可逆‘图像生成模型调研"
+date:   2019-10-18 09:49:01 +0800
+categories: research
+---
+
+出发点："Seeing What a GAN Cannot Generate"（应用DCGAN）
+"i-REVNET: DEEP INVERTIBLE NETWORKS"（提出可逆单元）
+文中于第2章Network inversion中一节讨论了GAN生成网络可逆性的研究，单其仅局限于GAN这类的生成器，考虑到扩展可逆单元至DCGAND后需要比较的对象，我们希望能考虑更多样式的可逆图像生成模型。
+
+关于可逆单元有更简洁的介绍于"Invertible Network for Classification and Biomarker Selection for ASD" 2.2节Invertible Network。
+
+总的来说，目前图像生成模型的思想来自于Sleep-wake algorithm，即人睡眠时整体记忆而形成的梦境，是一个生成的过程。目前总体来说可以分入以下3类：
+1）VAE，变分自编码器，由于其前后分为编码模块，解码模块两部分，其‘可逆’来自于两个网络的训练，对于输入的还原肯定做不到严格相等（因为自编码器的训练驱动就是输入与还原输入的距离）。而不是真正意义上训练一个网络，输入左端进入可以得到输出，输出右端进入可以完全还原输入（DCGAN+可逆单元后实现的模式），因此我们不考虑该种生成模型。
+
+2）GAN，GAN内的生成模型本身不考虑可逆，可以模仿VAE为其训练一个（图像->随机向量）的仿解码单元， "Generative visual manipulation on the natural image manifold"中对一个5层的较浅生成器实施了这一操作，对于较深的网络其训练比较难，而"Seeing What a GAN Cannot Generate"通过直接移动训练完成的生成模型后几层至仿解码单元训练模块，等于一个预训练操作后使得深层的网络也可以训练，但其本质还是编码解码模式，有和VAE一样的问题，没法完全还原输入。
+
+我们希望做的，用可逆单元叠加为GAN中的生成模型。
+
+3）Flow-base model，这一类模型出生就是为了使输入被完全还原，形式上来看，训练完成后的网络就是一连串的"可逆矩正连乘+调换部分输出位置（此调换可逆）"，很自然的可逆，而且其生成想过也很不错，是主要比较的对象，目前最强大的Flow-base model是Deeplearning的GLOW "Glow: Generative Flow with Invertible 1×1 Convolutions"
+
+流模型更基础的介绍："http://www.gwylab.com/note-flow_based_model.html"
+"http://nooverfit.com/wp/gan和vae都out了？理解基于流的生成模型（flow-based）-glow，realnvp和nice/"
+
+4)另外，可逆单元的提出者自己也做了一些可逆生成模型的尝试"Invertible Residual Networks"，其就是于深度残差网络中应用可逆单元，这种模式也可用于生成模型。可以参考其比对对象。
+
+主要的问题是已经有Flow-base model的方法了，可逆化更难训练的GAN有必要吗，GAN的劣势：
+"https://sinpycn.github.io/2017/04/29/GAN-Tutorial-How-do-generative-models-work.html"
+"https://www.jianshu.com/p/93f6c62eadbb"
